@@ -17,18 +17,18 @@ namespace MessageApi.Services
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 string query = @"
-                    INSERT INTO [CENTRALSTORE_DEMO].[dbo].[TelegramMessage] 
-                    (MessageText, UserMob, MsgStatus, MsgDate, DemandNumber) 
+                    INSERT INTO WhatsappMessage 
+                    (MessageText, UserMob, DemandNumber,Project,Location) 
                     VALUES 
-                    (@MessageText, @UserMob, @MsgStatus, @MsgDate, @DemandNumber);
+                    (@MessageText, @UserMob,@DemandNumber, @Project, @Location );
                     SELECT SCOPE_IDENTITY();";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@MessageText", message.MessageText);
                     command.Parameters.AddWithValue("@UserMob", message.UserMob);
-                    command.Parameters.AddWithValue("@MsgStatus", message.MsgStatus);
-                    command.Parameters.AddWithValue("@MsgDate", message.MsgDate);
+                    command.Parameters.AddWithValue("@Project", message.Project);
+                    command.Parameters.AddWithValue("@Location", message.Location);
                     command.Parameters.AddWithValue("@DemandNumber", message.DemandNumber);
 
                     connection.Open();
