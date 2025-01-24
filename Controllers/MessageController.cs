@@ -22,10 +22,6 @@ namespace MessageAPI.Controllers
         {
             try
             {
-                if (message.MsgDate == default)
-                {
-                    message.MsgDate = DateTime.UtcNow;
-                }
 
                 int newMsgId = _MessageService.InsertMessage(message);
                 return Ok(new { MsgId = newMsgId, Message = "The message inserted successfully" });
