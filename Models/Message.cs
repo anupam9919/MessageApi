@@ -9,4 +9,10 @@
         public string Project { get; set; }
         public string Location { get; set; }
     }
+    public class MessageResponse
+    {
+        public string MessageText { get; set; }
+        public DateTime MsgDate { get; set; }
+        public string MsgStatus { get; set; }
+    }
 }

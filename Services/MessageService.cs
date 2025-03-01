@@ -37,5 +37,42 @@ namespace MessageApi.Services
                 }
             }
         }
+        public List<MessageResponse> GetMessages(string userMob, string project, string location)
+        {
+            List<MessageResponse> messages = new List<MessageResponse>();
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                string query = @"
+            SELECT MessageText, MsgDate, MsgStatus
+            FROM WhatsappMessage 
+            WHERE UserMob = @UserMob 
+            AND Project = @Project 
+            AND Location = @Location";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@UserMob", userMob);
+                    command.Parameters.AddWithValue("@Project", project);
+                    command.Parameters.AddWithValue("@Location", location);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            messages.Add(new MessageResponse
+                            {
+                                MessageText = reader["MessageText"].ToString(),
+                                MsgDate = reader["MsgDate"] != DBNull.Value ? (DateTime)reader["MsgDate"] : DateTime.MinValue,
+                                MsgStatus = reader["MsgStatus"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+
+            return messages;
+        }
     }
 }
