@@ -12,7 +12,7 @@
     public class MessageResponse
     {
         public string MessageText { get; set; }
-        public DateTime MsgDate { get; set; }
-        public string MsgStatus { get; set; }
+        public DateTime? MsgDate { get; set; }
+        public string? MsgStatus { get; set; }
     }
 }

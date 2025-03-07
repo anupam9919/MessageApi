@@ -44,11 +44,11 @@ namespace MessageApi.Services
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 string query = @"
-            SELECT MessageText, MsgDate, MsgStatus
+            SELECT msgid, MessageText, MsgDate, MsgStatus, DemandNumber
             FROM WhatsappMessage 
             WHERE UserMob = @UserMob 
             AND Project = @Project 
-            AND Location = @Location";
+            AND Location = @Location  order by msgid desc";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -64,8 +64,8 @@ namespace MessageApi.Services
                             messages.Add(new MessageResponse
                             {
                                 MessageText = reader["MessageText"].ToString(),
-                                MsgDate = reader["MsgDate"] != DBNull.Value ? (DateTime)reader["MsgDate"] : DateTime.MinValue,
-                                MsgStatus = reader["MsgStatus"].ToString()
+                                MsgDate = reader["MsgDate"] != DBNull.Value ? DateTime.Parse(reader["MsgDate"].ToString()) : null,
+                                MsgStatus = reader["MsgStatus"] != DBNull.Value ? reader["MsgStatus"].ToString():null
                             });
                         }
                     }
