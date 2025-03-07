@@ -86,13 +86,15 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Always enable Swagger
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v2/swagger.json", "WhatsApp Message API v2"));
+
+// Only redirect HTTP to HTTPS in Development if needed
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v2/swagger.json", "WhatsApp Message API v2"));
+    app.UseHttpsRedirection();
 }
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
